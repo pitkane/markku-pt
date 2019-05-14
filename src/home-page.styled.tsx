@@ -19,7 +19,9 @@ const ContainerFooter = styled(Container)``;
 
 const CenteredCol = styled(Col)`
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 `;
 
 export default {

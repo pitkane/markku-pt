@@ -2,7 +2,9 @@ import React, { Fragment } from "react";
 
 import { Row, Col } from "src/components";
 
-import kjelpLogo from "src/images/kjelp_logo.png";
+import kjelpLogo from "src/images/kjelp-logo.png";
+import playStore from "src/images/play-store.png";
+import appStore from "src/images/app-store.png";
 
 import Styled from "./home-page.styled";
 
@@ -35,16 +37,15 @@ const Homepage: React.FC = () => {
         <Row>
           <Styled.CenteredCol>
             <h2>Helppoa asumista.</h2>
-          </Styled.CenteredCol>
-        </Row>
-        <Row>
-          <Styled.CenteredCol>
             <h3>Tilaa kodin huoltotöitä paikallisilta yrityksiltä.</h3>
-          </Styled.CenteredCol>
-        </Row>
-        <Row>
-          <Styled.CenteredCol>
             <h4>Katso video ja tutustu palveluun</h4>
+            <h4>Lataa Kjelp sovelluskaupoista</h4>
+            <img
+              style={{ height: 50 }}
+              src={playStore}
+              alt="Kjelp Google Play"
+            />
+            <img style={{ height: 50 }} src={appStore} alt="Kjelp App Store" />
           </Styled.CenteredCol>
         </Row>
       </Styled.ContainerUpperPart>

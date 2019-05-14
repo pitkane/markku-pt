@@ -36,7 +36,7 @@ const Homepage: React.FC = () => {
       <Styled.ContainerUpperPart fluid>
         <Row>
           <Styled.CenteredCol>
-            <h2>Helppoa asumista.</h2>
+            <h2 style={{ marginTop: 30 }}>Helppoa asumista.</h2>
             <h3>Tilaa kodin huoltotöitä paikallisilta yrityksiltä.</h3>
             <h4>Katso video ja tutustu palveluun</h4>
             <h4>Lataa Kjelp sovelluskaupoista</h4>
@@ -52,7 +52,9 @@ const Homepage: React.FC = () => {
 
       <Styled.ContainerServices fluid>
         <Row>
-          <Col>Intro</Col>
+          <Styled.CenteredCol>
+            <h1>Palveluidemme kattavuus laajenee päivittäin.</h1>
+          </Styled.CenteredCol>
         </Row>
       </Styled.ContainerServices>
 

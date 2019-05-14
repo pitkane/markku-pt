@@ -3,9 +3,23 @@ import styled from "styled-components";
 
 import { Container, Col } from "src/components";
 
+import kjelpJumbotron from "src/images/kjelp-jumbotron.jpg";
+
 const ContainerHeader = styled(Container)``;
 
-const ContainerUpperPart = styled(Container)``;
+const ContainerUpperPart = styled(Container)`
+  background: url(${kjelpJumbotron}) no-repeat center center fixed;
+
+  background-size: cover;
+  /* min-height: 1200px; */
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: white !important;
+  }
+`;
 
 const ContainerServices = styled(Container)``;
 

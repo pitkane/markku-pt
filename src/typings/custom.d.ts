@@ -1,14 +1,6 @@
-import "styled-components";
-
-/// <reference types="node" />
-/// <reference types="react" />
-/// <reference types="react-dom" />
-
-declare namespace NodeJS {
-  interface ProcessEnv {
-    readonly NODE_ENV: "development" | "production" | "test";
-    readonly PUBLIC_URL: string;
-  }
+declare module "*.svg" {
+  const content: any;
+  export default content;
 }
 
 declare module "*.bmp" {

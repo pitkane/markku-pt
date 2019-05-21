@@ -8,7 +8,8 @@ import { theme } from "src/styles/theme";
 import GlobalStyles from "src/styles/global-styles";
 
 import { Header, Footer } from "src/components";
-import { HomePage } from "src/modules/home-page";
+import HomePage from "src/modules/home-page";
+import TerminalPage from "src/modules/terminal-page";
 
 interface Props {}
 interface State {}
@@ -33,6 +34,7 @@ export class RootComponent extends React.Component<Props, State> {
 
             <StyledMainContainer>
               <Route path="/" exact component={HomePage} />
+              <Route path="/terminal" exact component={TerminalPage} />
             </StyledMainContainer>
 
             <Footer />

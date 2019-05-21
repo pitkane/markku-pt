@@ -11,10 +11,18 @@ const StyledContainer = styled.div`
   background-color: ${props => props.theme.colors.headerBlue};
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `;
 
 const StyledMarkkuLogo = styled.img`
-  height: 25px;
+  height: 20px;
+  position: absolute;
+  left: 50px;
+`;
+
+const StyledH1 = styled.h1`
+  color: white;
 `;
 
 export class Header extends React.Component<Props, State> {
@@ -22,7 +30,7 @@ export class Header extends React.Component<Props, State> {
     return (
       <StyledContainer>
         <StyledMarkkuLogo src={markkuLogo} />
-        <h2>Markku Personal Trainer</h2>
+        <StyledH1>Markku Personal Trainer</StyledH1>
       </StyledContainer>
     );
   }

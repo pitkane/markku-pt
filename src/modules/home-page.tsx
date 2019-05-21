@@ -1,13 +1,20 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 interface Props {}
 interface State {}
 
 const StyledContainer = styled.div``;
 
-export class HomePage extends React.Component<Props, State> {
+class HomePage extends React.Component<Props, State> {
   render() {
-    return <StyledContainer>home-page.tsx</StyledContainer>;
+    return (
+      <StyledContainer>
+        <Link to="/terminal">/Terminal</Link>
+      </StyledContainer>
+    );
   }
 }
+
+export default HomePage;

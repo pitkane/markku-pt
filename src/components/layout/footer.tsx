@@ -6,11 +6,12 @@ interface State {}
 
 const StyledContainer = styled.div`
   height: 64px;
-  background-color: ${p => p.theme.colors.footerBlue};
+  background-color: ${p => p.theme.colors.headerBlue};
   display: flex;
   justify-content: center;
   align-items: center;
 `;
+
 export class Footer extends React.Component<Props, State> {
   render() {
     return (

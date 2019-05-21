@@ -45,30 +45,10 @@ export default TerminalPage;
 
 function runFakeTerminal(xterm: XTerm) {
   const term: Terminal = xterm.getTerminal();
-  var shellprompt = "$ ";
 
-  function prompt() {
-    xterm.write("\r\n" + shellprompt);
-  }
   xterm.writeln("Markku.ai");
   xterm.writeln("Putting the AI in Maximum AIttack");
   xterm.writeln("");
-  prompt();
-
-  // term.on("key", function(key, ev) {
-  //   var printable = !ev.altKey && !ev.ctrlKey && !ev.metaKey;
-
-  //   if (ev.keyCode === 13) {
-  //     prompt();
-  //     // } else if (ev.keyCode == 8) {
-  //     //   // Do not delete the prompt
-  //     //   if (term['x'] > 2) {
-  //     //     xterm.write('\b \b');
-  //     //   }
-  //   } else if (printable) {
-  //     xterm.write(key);
-  //   }
-  // });
 
   term.on("paste", function(data, ev) {
     xterm.write(data);

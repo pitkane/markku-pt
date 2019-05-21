@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 import markkuLogo from "src/images/markku-logo.svg";
 
@@ -29,7 +30,9 @@ export class Header extends React.Component<Props, State> {
   render() {
     return (
       <StyledContainer>
-        <StyledMarkkuLogo src={markkuLogo} />
+        <Link to="/">
+          <StyledMarkkuLogo src={markkuLogo} />
+        </Link>
         <StyledH1>Markku Personal Trainer</StyledH1>
       </StyledContainer>
     );

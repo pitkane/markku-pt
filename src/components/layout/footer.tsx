@@ -5,12 +5,18 @@ interface Props {}
 interface State {}
 
 const StyledContainer = styled.div`
-  width: 1440px;
   height: 64px;
-  background-color: ${p => p.theme.colors.secondary};
+  background-color: ${p => p.theme.colors.footerBlue};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 export class Footer extends React.Component<Props, State> {
   render() {
-    return <StyledContainer>footer</StyledContainer>;
+    return (
+      <StyledContainer>
+        <a href="https://markku.ai">Markku.ai</a>
+      </StyledContainer>
+    );
   }
 }

@@ -1,5 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { ResizableBox } from "react-resizable";
+import _ from "lodash";
+
 import { Container, Row, Col, XTerm, Terminal } from "src/components";
 
 interface Props {}
@@ -14,26 +17,31 @@ const StyledContainer = styled(Container)``;
 export class TerminalPage extends React.Component<Props, State> {
   refs: IRefs;
 
+  throttleConsoleResize = _.throttle((size?) => {
+    this.refs.xterm && this.refs.xterm.fit();
+  }, 10);
+
   componentDidMount() {
-    runFakeTerminal(this.refs.xterm);
+    // runFakeTerminal(this.refs.xterm);
   }
 
   render() {
     return (
       <StyledContainer>
         <Row>
-          <Col>1</Col>
-          <Col>
-            <XTerm
-              ref="xterm"
+          <Col lg={6}>
+            asdfasdfsadf afsdfas djsfadöasdföasdf ölasdf öasdf ösdf ödl ffdjas
+            dfksdf aö asdfö asdföafs dlafs dla sfdlö1
+          </Col>
+          <Col lg={6}>
+            <ResizableBox
+              onResize={this.throttleConsoleResize}
               style={{
-                addons: ["fit", "fullscreen", "search", "terminado"],
-                overflow: "hidden",
-                position: "relative",
-                width: "100%",
-                height: "100%"
+                overflow: "hidden"
               }}
-            />
+            >
+              <XTerm ref="xterm" style={{}} />
+            </ResizableBox>
           </Col>
         </Row>
       </StyledContainer>
@@ -44,13 +52,13 @@ export class TerminalPage extends React.Component<Props, State> {
 export default TerminalPage;
 
 function runFakeTerminal(xterm: XTerm) {
-  const term: Terminal = xterm.getTerminal();
+  // const term: Terminal = xterm.getTerminal();
 
   xterm.writeln("Markku.ai");
   xterm.writeln("Putting the AI in Maximum AIttack");
   xterm.writeln("");
 
-  term.on("paste", function(data, ev) {
-    xterm.write(data);
-  });
+  // term.on("paste", function(data, ev) {
+  //   xterm.write(data);
+  // });
 }

@@ -57,6 +57,7 @@
     "react-dev-utils": "^9.0.1",
     "react-dom": "^16.8.6",
     "react-grid-system": "^4.4.5",
+    "react-resizable": "^1.8.0",
     "react-router-dom": "^5.0.0",
     "react-spinners": "^0.5.4",
     "reflexbox": "^3.0.1",

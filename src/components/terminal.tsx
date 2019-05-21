@@ -4,10 +4,11 @@ import React from "react";
 import { Terminal } from "xterm";
 import _ from "lodash";
 import * as terminado from "xterm/lib/addons/terminado/terminado";
+import * as fit from "xterm/lib/addons/fit/fit";
+import * as fullscreen from "xterm/lib/addons/fullscreen/fullscreen";
 
 import "xterm/dist/xterm.css";
-
-// import styles from 'xterm/xterm.css';
+import "xterm/dist/addons/fullscreen/fullscreen.css";
 
 const className = require("classnames");
 // const debounce = require('lodash.debounce');
@@ -18,7 +19,6 @@ export interface IXtermProps extends React.DOMAttributes<{}> {
   onChange?: (e) => void;
   onInput?: (e) => void;
   onFocusChange?: Function;
-  addons?: string[];
   onScroll?: (e) => void;
   onContextMenu?: (e) => void;
   options?: any;
@@ -44,14 +44,9 @@ export default class XTerm extends React.Component<IXtermProps, IXtermState> {
     Terminal.applyAddon(addon);
   }
   componentDidMount() {
-    if (this.props.addons) {
-      this.props.addons.forEach(s => {
-        const addon = require(`xterm/dist/addons/${s}/${s}.js`);
-        Terminal.applyAddon(addon);
-      });
-    }
-
     Terminal.applyAddon(terminado);
+    Terminal.applyAddon(fit);
+    Terminal.applyAddon(fullscreen);
 
     this.xterm = new Terminal(this.props.options);
 
@@ -68,6 +63,8 @@ export default class XTerm extends React.Component<IXtermProps, IXtermState> {
 
     this.xterm.on("focus", this.focusChanged.bind(this, true));
     this.xterm.on("blur", this.focusChanged.bind(this, false));
+
+    // this.xterm.toggleFullScreen();
 
     // this.sock.addEventListener("open", function() {
     //   this.xterm.terminadoAttach(this.sock);
@@ -152,6 +149,13 @@ export default class XTerm extends React.Component<IXtermProps, IXtermState> {
     this.props.onContextMenu && this.props.onContextMenu(e);
   }
 
+  fit() {
+    this.xterm.fit();
+  }
+  toggleFullscreen() {
+    this.xterm.toggleFullScreen();
+  }
+
   render() {
     const terminalClassName = className(
       "ReactXTerm",
@@ -160,7 +164,14 @@ export default class XTerm extends React.Component<IXtermProps, IXtermState> {
     );
 
     return (
-      <div ref={ref => (this.container = ref)} className={terminalClassName} />
+      <div>
+        <div
+          ref={ref => (this.container = ref)}
+          className={terminalClassName}
+        />
+        <button onClick={() => this.fit()}>fits</button>
+        <button onClick={() => this.toggleFullscreen()}>fullscreen</button>
+      </div>
     );
   }
 }

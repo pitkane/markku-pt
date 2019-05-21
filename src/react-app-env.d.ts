@@ -1,3 +1,5 @@
+import "styled-components";
+
 /// <reference types="node" />
 /// <reference types="react" />
 /// <reference types="react-dom" />
@@ -6,6 +8,20 @@ declare namespace NodeJS {
   interface ProcessEnv {
     readonly NODE_ENV: "development" | "production" | "test";
     readonly PUBLIC_URL: string;
+  }
+}
+
+// import original module declarations
+
+// and extend them!
+declare module "styled-components" {
+  export interface DefaultTheme {
+    borderRadius: string;
+
+    colors: {
+      main: string;
+      secondary: string;
+    };
   }
 }
 

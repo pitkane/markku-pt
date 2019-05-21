@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="172" height="128" viewBox="0 0 172 128">
+    <defs>
+        <path id="a" d="M112 56c0 30.928-25.072 56-56 56S0 86.928 0 56 25.072 0 56 0s56 25.072 56 56"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <path fill="#F9F9F9" d="M142 70c0 30.928-25.072 56-56 56s-56-25.072-56-56 25.072-56 56-56 56 25.072 56 56"/>
+        <g transform="translate(30 14)">
+            <mask id="b" fill="#fff">
+                <use xlink:href="#a"/>
+            </mask>
+            <use fill="#F9F9F9" xlink:href="#a"/>
+            <g fill-rule="nonzero" mask="url(#b)">
+                <g transform="translate(0 37)">
+                    <path fill="#E6E6E6" d="M0 0h64v75.636H0z"/>
+                    <path fill="#D9D7D7" d="M0 0h64v14.545H0z"/>
+                    <circle cx="56.7" cy="8.108" r="2.182" fill="#81EBF7" stroke="#CCC8C8"/>
+                    <circle cx="31.811" cy="40.108" r="21.145" fill="#CCC8C8"/>
+                    <circle cx="31.811" cy="40.108" r="16.404" fill="#E6E6E6"/>
+                    <circle cx="47.65" cy="8" r="2.182" fill="#81EBF7" stroke="#CCC8C8"/>
+                    <path fill="#CCC8C8" d="M0 64.646h64v10.99H0z"/>
+                </g>
+            </g>
+        </g>
+        <g fill-rule="nonzero" transform="translate(88 62)">
+            <path fill="#FFF" d="M0 0h54v63.818H0z"/>
+            <path fill="#E6E6E6" d="M0 0h54v12.273H0z"/>
+            <circle cx="6.75" cy="6.75" r="1.841" fill="#4DC8D1"/>
+            <circle cx="16.875" cy="6.75" r="1.841" fill="#4DC8D1"/>
+            <circle cx="27" cy="6.75" r="1.841" fill="#4DC8D1"/>
+            <circle cx="47.25" cy="6.75" r="1.841" fill="#4DC8D1"/>
+            <circle cx="37.125" cy="6.75" r="1.841" fill="#4DC8D1"/>
+            <path fill="#E6E6E6" d="M0 51.545h54v12.273H0z"/>
+            <rect width="44.182" height="28.227" x="4.909" y="18.409" fill="#CCC8C8" rx="2"/>
+        </g>
+        <path stroke="#D24FDB" stroke-dasharray="0,3" stroke-linecap="round" d="M22.5 40.5h41"/>
+        <path stroke="#E861E6" stroke-dasharray="0,3" stroke-linecap="round" d="M157 98h-41"/>
+        <path stroke="#D24FDB" stroke-dasharray="0,3" stroke-linecap="round" d="M16 45.5h45.5"/>
+        <path stroke="#E861E6" stroke-dasharray="0,3" stroke-linecap="round" d="M164.5 103H119"/>
+        <path stroke="#D24FDB" stroke-dasharray="0,3" stroke-linecap="round" d="M29 35.5h33.58"/>
+        <path stroke="#E861E6" stroke-dasharray="0,3" stroke-linecap="round" d="M149.29 92.79h-33.58"/>
+    </g>
+</svg>

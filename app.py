@@ -21,7 +21,6 @@ if __name__ == '__main__':
     @sio.on('message')
     async def message(sid, data):
         print("server received message!", data)
-        await sio.emit('reply', data)
 
         await sio.emit("lol", "olololol")
 

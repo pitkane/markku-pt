@@ -10,6 +10,10 @@ const StyledContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  a {
+    color: white;
+  }
 `;
 
 export class Footer extends React.Component<Props, State> {

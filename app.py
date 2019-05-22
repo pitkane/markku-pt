@@ -22,7 +22,8 @@ if __name__ == '__main__':
     async def message(sid, data):
         print("server received message!", data)
         await sio.emit('reply', data)
-        await sio.send(data)
+
+        await sio.emit("lol", "olololol")
 
     @sio.on('disconnect')
     async def disconnect(sid):

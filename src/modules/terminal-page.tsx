@@ -37,8 +37,8 @@ export class TerminalPage extends React.Component<Props, State> {
       console.log("connected: ", socket.connected); // false
     });
 
-    socket.on("lol", () => {
-      console.log("message: "); // false
+    socket.on("lol", wat => {
+      console.log("message: ", wat); // false
     });
   };
 

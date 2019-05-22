@@ -34,7 +34,8 @@ export interface IXtermState {
 export default class XTerm extends React.Component<IXtermProps, IXtermState> {
   xterm: any;
   container: HTMLDivElement | null;
-  sock: WebSocket;
+  terminalSocket: WebSocket;
+  communicationSocket: WebSocket;
 
   state = {
     isFocused: false
@@ -50,14 +51,14 @@ export default class XTerm extends React.Component<IXtermProps, IXtermState> {
 
     this.xterm = new Terminal(this.props.options);
 
-    const protocol = location.protocol === "https:" ? "wss://" : "ws://";
+    // const protocol = location.protocol === "https:" ? "wss://" : "ws://";
     // const socketURL = `${protocol}${location.hostname}:8080/`;
-    const socketURL = `ws://127.0.0.1:8080/websocket`;
+    // const socketURL = `ws://127.0.0.1:8080/websocket`;
+    const terminalSocketURL = `ws://127.0.0.1:8080/terminal-socket`;
 
-    console.log(socketURL);
-    const socket = new WebSocket(socketURL);
+    const terminalSocket = new WebSocket(terminalSocketURL);
 
-    this.xterm.terminadoAttach(socket);
+    this.xterm.terminadoAttach(terminalSocket);
 
     if (this.container) this.xterm.open(this.container);
 

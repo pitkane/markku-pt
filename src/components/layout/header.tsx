@@ -46,9 +46,15 @@ export class Header extends React.Component<Props, State> {
       <StyledContainer>
         <Link to="/">
           <StyledMarkkuLogo src={markkuLogo} />
-          <StyledFuturiceLogo src={futuriceLogo} />
+          <StyledH1>Markku Personal Trainer</StyledH1>
         </Link>
-        <StyledH1>Markku Personal Trainer</StyledH1>
+        <a
+          href="https://www.futurice.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <StyledFuturiceLogo src={futuriceLogo} />
+        </a>
       </StyledContainer>
     );
   }

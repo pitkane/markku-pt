@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { ResizableBox } from "react-resizable";
+import io from "socket.io-client";
 import _ from "lodash";
 
-import { Container, Row, Col, XTerm, Terminal } from "src/components";
+import { Container, Row, Col, XTerm } from "src/components";
 
 interface Props {}
 interface State {}
@@ -16,6 +17,7 @@ const StyledContainer = styled(Container)``;
 
 export class TerminalPage extends React.Component<Props, State> {
   refs: IRefs;
+  socket: any;
 
   throttleConsoleResize = _.throttle((size?) => {
     this.refs.xterm && this.refs.xterm.fit();
@@ -23,7 +25,31 @@ export class TerminalPage extends React.Component<Props, State> {
 
   componentDidMount() {
     // runFakeTerminal(this.refs.xterm);
+    const socket = io("ws://localhost:8080");
+
+    this.socket = socket;
+
+    socket.on("connect", () => {
+      console.log("connected: ", socket.connected); // false
+    });
+
+    socket.on("disconnect", () => {
+      console.log("connected: ", socket.connected); // false
+    });
+
+    socket.on("lol", () => {
+      console.log("message: "); // false
+    });
   }
+
+  sendTestMessage = async () => {
+    console.log("start");
+    // const socket = io("http://localhost:8080");
+    this.socket.emit("message", "lol");
+    // await socket.wait();
+    // socket.emit
+    // console.log(socket);
+  };
 
   render() {
     return (
@@ -32,12 +58,19 @@ export class TerminalPage extends React.Component<Props, State> {
           <Col lg={6}>
             asdfasdfsadf afsdfas djsfadöasdföasdf ölasdf öasdf ösdf ödl ffdjas
             dfksdf aö asdfö asdföafs dlafs dla sfdlö1
+            <button onClick={() => this.sendTestMessage()}>
+              sendTestMessage
+            </button>
           </Col>
           <Col lg={6}>
             <ResizableBox
+              height={100}
+              width={100}
               onResize={this.throttleConsoleResize}
               style={{
-                overflow: "hidden"
+                overflow: "hidden",
+                width: "100%",
+                height: "100%"
               }}
             >
               <XTerm ref="xterm" style={{}} />
@@ -50,15 +83,3 @@ export class TerminalPage extends React.Component<Props, State> {
 }
 
 export default TerminalPage;
-
-function runFakeTerminal(xterm: XTerm) {
-  // const term: Terminal = xterm.getTerminal();
-
-  xterm.writeln("Markku.ai");
-  xterm.writeln("Putting the AI in Maximum AIttack");
-  xterm.writeln("");
-
-  // term.on("paste", function(data, ev) {
-  //   xterm.write(data);
-  // });
-}

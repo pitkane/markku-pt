@@ -54,7 +54,7 @@ export default class XTerm extends React.Component<IXtermProps, IXtermState> {
     // const protocol = location.protocol === "https:" ? "wss://" : "ws://";
     // const socketURL = `${protocol}${location.hostname}:8080/`;
     // const socketURL = `ws://127.0.0.1:8080/websocket`;
-    const terminalSocketURL = `ws://localhost:8080/terminal-socket`;
+    const terminalSocketURL = `ws://0.0.0.0:8888/terminal-socket`;
 
     const terminalSocket = new WebSocket(terminalSocketURL);
 

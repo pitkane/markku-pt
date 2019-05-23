@@ -25,7 +25,7 @@ export class TerminalPage extends React.Component<Props, State> {
 
   componentDidMount = async () => {
     // runFakeTerminal(this.refs.xterm);
-    const socket = await io("http://localhost:8080");
+    const socket = await io("ws://localhost:8888");
 
     this.socket = socket;
 
@@ -48,6 +48,7 @@ export class TerminalPage extends React.Component<Props, State> {
     await this.socket.emit("message", "lol");
 
     console.log(this.socket.connected);
+    console.log(this.socket);
     // await socket.wait();
     // socket.emit
     // console.log(socket);

@@ -21,6 +21,8 @@
     "express-ws": "^4.0.0",
     "node-pty": "^0.8.1",
     "nodemon": "^1.19.0",
+    "prettier": "^1.17.1",
+    "socket.io": "^2.2.0",
     "xterm": "^3.13.2"
   }
 }

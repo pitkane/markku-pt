@@ -6,8 +6,8 @@ import _ from "lodash";
 
 import { Container, Row, Col, XTerm } from "src/components";
 
-interface Props {}
-interface State {}
+interface Props { }
+interface State { }
 interface IRefs {
   [k: string]: any;
   xterm: XTerm;
@@ -40,7 +40,7 @@ export class TerminalPage extends React.Component<Props, State> {
 
   sendTestMessage = async () => {
     console.log("start");
-    // const socket = io("http://localhost:8080");
+    // const socket = io("ws://localhost:8080");
     await this.socket.emit("message", "lol");
 
     console.log(this.socket.connected);
@@ -50,18 +50,39 @@ export class TerminalPage extends React.Component<Props, State> {
     // console.log(socket);
   };
 
+
+  startDriving = async () => {
+
+    const socket = io("ws://localhost:3001");
+    await this.socket.emit("car", "drive");
+
+    console.log(this.socket.connected);
+    console.log(this.socket);
+    // await socket.wait();
+    // socket.emit
+    // console.log(socket);
+  };
+
+
   render() {
     return (
       <StyledContainer>
         <Row>
-          <Col lg={6}>
+          <Col>
             asdfasdfsadf afsdfas djsfadöasdföasdf ölasdf öasdf ösdf ödl ffdjas
             dfksdf aö asdfö asdföafs dlafs dla sfdlö1
             <button onClick={() => this.sendTestMessage()}>
               sendTestMessage
             </button>
+
+            <button onClick={() => this.startDriving()}>
+              this.startDriving()
+            </button>
+
           </Col>
-          <Col lg={6}>
+        </Row>
+        <Row>
+          <Col >
             <ResizableBox
               height={100}
               width={100}
@@ -76,6 +97,7 @@ export class TerminalPage extends React.Component<Props, State> {
             </ResizableBox>
           </Col>
         </Row>
+
       </StyledContainer>
     );
   }

@@ -1,26 +1,25 @@
 var os = require("os");
 var pty = require("node-pty");
 
-import * as express from "express";
 
-const app = express();
-const expressWs = require("express-ws")(app);
+var app = require('express')();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
-// Serve static assets from ./static
-app.use(express.static(`${__dirname}/static`));
+const expressWebsocket = require("express-ws")(app);
 
 // Instantiate shell and set up data handlers
-expressWs.app.ws("/shell", (ws, req) => {
+expressWebsocket.app.ws("/shell", (ws, req) => {
   var ptyProcess = pty.spawn("/bin/bash", [], {
     name: "xterm-color",
-    cols: 80,
+    cols: 120,
     rows: 30,
     cwd: process.env.HOME,
     env: process.env
   });
 
   /// prepare environment
-  ptyProcess.write("cd ~/pitkane/d2");
+  ptyProcess.write("cd ~/pitkane/d2\n");
   // ptyProcess.on("data", function(data) {
   // this outputs data into current stdout (console)
   //   process.stdout.write(data);
@@ -35,11 +34,25 @@ expressWs.app.ws("/shell", (ws, req) => {
   ws.on("message", msg => {
     ptyProcess.write(msg);
   });
+
+
 });
 
-app.get("/", function(req, res) {
+app.get("/", (req, res) => {
   res.send("moro");
 });
 
+io.on('connection', (socket) => {
+  socket.emit('news', { hello: 'world' });
+
+  console.log("connection created")
+
+  socket.on('car', (data) => {
+    console.log(data);
+  });
+});
+
+console.log("Starting on port 3001 ");
+
 // Start the application
-app.listen(3001);
+server.listen(3001);

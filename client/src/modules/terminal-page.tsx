@@ -25,21 +25,17 @@ export class TerminalPage extends React.Component<Props, State> {
 
   componentDidMount = async () => {
     // runFakeTerminal(this.refs.xterm);
-    const socket = await io("ws://localhost:8888");
-
-    this.socket = socket;
-
-    socket.on("connect", () => {
-      console.log("connected: ", socket.connected); // false
-    });
-
-    socket.on("disconnect", () => {
-      console.log("connected: ", socket.connected); // false
-    });
-
-    socket.on("lol", wat => {
-      console.log("message: ", wat); // false
-    });
+    // const socket = await io("ws://localhost:8888");
+    // this.socket = socket;
+    // socket.on("connect", () => {
+    //   console.log("connected: ", socket.connected); // false
+    // });
+    // socket.on("disconnect", () => {
+    //   console.log("connected: ", socket.connected); // false
+    // });
+    // socket.on("lol", wat => {
+    //   console.log("message: ", wat); // false
+    // });
   };
 
   sendTestMessage = async () => {

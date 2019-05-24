@@ -3,7 +3,7 @@
 import React from "react";
 import { Terminal } from "xterm";
 import _ from "lodash";
-import * as terminado from "xterm/lib/addons/terminado/terminado";
+import * as attach from "xterm/lib/addons/attach/attach";
 import * as fit from "xterm/lib/addons/fit/fit";
 import * as fullscreen from "xterm/lib/addons/fullscreen/fullscreen";
 
@@ -45,7 +45,7 @@ export default class XTerm extends React.Component<IXtermProps, IXtermState> {
     Terminal.applyAddon(addon);
   }
   componentDidMount() {
-    Terminal.applyAddon(terminado);
+    Terminal.applyAddon(attach);
     Terminal.applyAddon(fit);
     Terminal.applyAddon(fullscreen);
 
@@ -54,11 +54,13 @@ export default class XTerm extends React.Component<IXtermProps, IXtermState> {
     // const protocol = location.protocol === "https:" ? "wss://" : "ws://";
     // const socketURL = `${protocol}${location.hostname}:8080/`;
     // const socketURL = `ws://127.0.0.1:8080/websocket`;
-    const terminalSocketURL = `ws://0.0.0.0:8888/terminal-socket`;
+    const terminalSocketURL = `ws://0.0.0.0:3001/shell`;
 
     const terminalSocket = new WebSocket(terminalSocketURL);
 
-    this.xterm.terminadoAttach(terminalSocket);
+    console.log(terminalSocket);
+
+    this.xterm.attach(terminalSocket);
 
     if (this.container) this.xterm.open(this.container);
 

@@ -1,45 +1,36 @@
-var express = require("express");
-var cors = require("cors");
-var expressWs = require("express-ws");
-var os = require("os");
-var pty = require("node-pty");
+const express = require("express");
+const cors = require("cors");
+const expressWs = require("express-ws");
+const pty = require("node-pty");
 
-/**
- * Whether to use UTF8 binary transport.
- * (Must also be switched in client.ts)
- */
-const USE_BINARY_UTF8 = false;
+const shellHelper = require("./shellHelper");
 
-function startServer() {
-  var app = express();
+const startServer = () => {
+  const app = express();
   app.use(cors());
 
   expressWs(app);
 
-  // var server = require("http").Server(app);
-  // var io = require("socket.io")(server);
+  const terminals = {};
+  const logs = {};
 
-  var terminals = {};
-  var logs = {};
-
-  app.post("/terminals", function(req, res) {
-    var cols = parseInt(req.query.cols),
-      rows = parseInt(req.query.rows),
-      term = pty.spawn("bash", [], {
-        name: "xterm-color",
-        cols: cols || 80,
-        rows: rows || 24,
-        cwd: process.env.PWD,
-        env: process.env,
-        encoding: USE_BINARY_UTF8 ? null : "utf8"
-      });
+  app.post("/terminals", (req, res) => {
+    const cols = parseInt(req.query.cols);
+    const rows = parseInt(req.query.rows);
+    const term = pty.spawn("bash", [], {
+      name: "xterm-color",
+      cols: cols || 80,
+      rows: rows || 24,
+      cwd: process.env.PWD,
+      env: process.env
+    });
 
     console.log("Created terminal with PID: " + term.pid);
     terminals[term.pid] = term;
     logs[term.pid] = "";
 
     // when terminal receives data, buffer to logs
-    term.on("data", function(data) {
+    term.on("data", data => {
       logs[term.pid] += data;
     });
 
@@ -48,24 +39,24 @@ function startServer() {
     res.end();
   });
 
-  app.ws("/terminals/:pid", function(ws, req) {
-    var term = terminals[parseInt(req.params.pid)];
+  app.ws("/terminals/:pid", (ws, req) => {
+    const term = terminals[parseInt(req.params.pid)];
 
     console.log("Connected to terminal " + term.pid);
 
     ws.send(logs[term.pid]);
 
     // terminal -> client
-    term.on("data", function(data) {
+    term.on("data", data => {
       ws.send(data);
     });
 
     // client -> terminal
-    ws.on("message", function(msg) {
+    ws.on("message", msg => {
       term.write(msg);
     });
 
-    ws.on("close", function() {
+    ws.on("close", () => {
       term.kill();
       console.log("Closed terminal " + term.pid);
       // Clean things up
@@ -77,19 +68,50 @@ function startServer() {
   const port = 3001;
   const host = "0.0.0.0";
 
-  var server = app.listen(port, host);
-  var io = require("socket.io").listen(server);
+  const server = app.listen(port, host);
+  const io = require("socket.io").listen(server);
 
-  io.on("connection", function(socket) {
-    socket.on("car", function(data) {
+  io.on("connection", socket => {
+    socket.on("car", data => {
       console.log("car", data);
 
-      socket.emit("yolo");
+      const { spawn } = require("child_process");
+
+      const process = spawn("bash", ["./drive.sh"]);
+
+      process.stdout.on("data", data => {
+        console.log(`stdout: ${data}`);
+      });
+
+      process.stderr.on("data", data => {
+        console.log(`stderr: ${data}`);
+      });
+
+      process.on("exit", code => {
+        console.log("Child exited");
+      });
+      // const runner = spawn("/bin/bash", [], {
+      //   stdio: "inherit"
+      // });
+
+      // console.log(runner);
+
+      // runner.stdout.on("data", data => {
+      //   console.log(`stdout: ${data}`);
+      // });
+
+      // runner.stderr.on("data", data => {
+      //   console.log(`stderr: ${data}`);
+      // });
+
+      // runner.on("close", code => {
+      //   console.log(`child process exited with code ${code}`);
+      // });
     });
   });
 
   console.log("App listening to http://0.0.0.0:" + port);
   // app.listen(port, host);
-}
+};
 
 startServer();

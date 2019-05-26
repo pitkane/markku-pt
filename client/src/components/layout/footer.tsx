@@ -11,6 +11,8 @@ const StyledContainer = styled.div`
   justify-content: center;
   align-items: center;
 
+  margin: auto auto 0 auto;
+
   a {
     color: white;
   }

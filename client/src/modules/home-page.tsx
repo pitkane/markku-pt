@@ -6,12 +6,23 @@ interface Props {}
 interface State {}
 
 const StyledContainer = styled.div``;
+const StyledNavigation = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
 class HomePage extends React.Component<Props, State> {
   render() {
     return (
       <StyledContainer>
-        <Link to="/terminal">/Terminal</Link>
+        <StyledNavigation>
+          <Link to="/">/</Link>
+          <Link to="/drive">/drive</Link>
+          <Link to="/train">/train</Link>
+          <Link to="/training">/training</Link>
+          <Link to="/drive">/drive</Link>
+          <Link to="/test">/test</Link>
+        </StyledNavigation>
       </StyledContainer>
     );
   }

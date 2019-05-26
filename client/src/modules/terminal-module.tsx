@@ -13,9 +13,12 @@ interface IRefs {
   xterm: XTerm;
 }
 
-const StyledContainer = styled(Container)``;
+const StyledContainer = styled(Container)`
+  position: fixed !important;
+  bottom: 0 !important;
+`;
 
-export class TerminalPage extends React.Component<Props, State> {
+export class TerminalModule extends React.Component<Props, State> {
   refs: IRefs;
   socket: any;
 
@@ -27,20 +30,7 @@ export class TerminalPage extends React.Component<Props, State> {
     this.refs.xterm && this.refs.xterm.fit();
   }, 10);
 
-  componentDidMount = async () => {
-    // runFakeTerminal(this.refs.xterm);
-    // const socket = await io("ws://localhost:8888");
-    // this.socket = socket;
-    // socket.on("connect", () => {
-    //   console.log("connected: ", socket.connected); // false
-    // });
-    // socket.on("disconnect", () => {
-    //   console.log("connected: ", socket.connected); // false
-    // });
-    // socket.on("lol", wat => {
-    //   console.log("message: ", wat); // false
-    // });
-  };
+  componentDidMount = async () => {};
 
   sendTestMessage = async () => {
     console.log("start");
@@ -94,10 +84,6 @@ export class TerminalPage extends React.Component<Props, State> {
       <StyledContainer>
         <Row>
           <Col>
-            asdfasdfsadf afsdfas djsfadöasdföasdf ölasdf öasdf ösdf ödl ffdjas
-            dfksdf aö asdfö asdföafs dlafs dla sfdlö1
-            <br />
-            <br />
             <button onClick={() => this.sendTestMessage()}>
               sendTestMessage
             </button>
@@ -132,4 +118,4 @@ export class TerminalPage extends React.Component<Props, State> {
   }
 }
 
-export default TerminalPage;
+export default TerminalModule;

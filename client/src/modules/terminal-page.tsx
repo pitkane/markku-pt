@@ -51,7 +51,7 @@ export class TerminalPage extends React.Component<Props, State> {
   };
 
   startDriving = async () => {
-    const socket = await io("ws://127.0.0.1:3001");
+    const socket = await io("ws://0.0.0.0:3001");
     await socket.emit("car", "drive");
 
     console.log(socket.connected);

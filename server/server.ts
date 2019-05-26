@@ -34,6 +34,8 @@ const startServer = () => {
       logs[term.pid] += data;
     });
 
+    term.write("echo moro\n");
+
     res.send(term.pid.toString());
 
     res.end();
@@ -77,7 +79,7 @@ const startServer = () => {
 
       const { spawn } = require("child_process");
 
-      const process = spawn("bash", ["./drive.sh"]);
+      const process = spawn("zsh", ["./drive.sh"]);
 
       // ws.send(logs[term.pid]);
 

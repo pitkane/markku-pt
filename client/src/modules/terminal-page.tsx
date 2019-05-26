@@ -6,8 +6,8 @@ import _ from "lodash";
 
 import { Container, Row, Col, XTerm } from "src/components";
 
-interface Props { }
-interface State { }
+interface Props {}
+interface State {}
 interface IRefs {
   [k: string]: any;
   xterm: XTerm;
@@ -50,19 +50,16 @@ export class TerminalPage extends React.Component<Props, State> {
     // console.log(socket);
   };
 
-
   startDriving = async () => {
+    const socket = await io("ws://127.0.0.1:3001");
+    await socket.emit("car", "drive");
 
-    const socket = io("ws://localhost:3001");
-    await this.socket.emit("car", "drive");
-
-    console.log(this.socket.connected);
-    console.log(this.socket);
+    console.log(socket.connected);
+    console.log(socket);
     // await socket.wait();
     // socket.emit
     // console.log(socket);
   };
-
 
   render() {
     return (
@@ -74,15 +71,13 @@ export class TerminalPage extends React.Component<Props, State> {
             <button onClick={() => this.sendTestMessage()}>
               sendTestMessage
             </button>
-
             <button onClick={() => this.startDriving()}>
               this.startDriving()
             </button>
-
           </Col>
         </Row>
         <Row>
-          <Col >
+          <Col>
             <ResizableBox
               height={100}
               width={100}
@@ -97,7 +92,6 @@ export class TerminalPage extends React.Component<Props, State> {
             </ResizableBox>
           </Col>
         </Row>
-
       </StyledContainer>
     );
   }

@@ -1,58 +1,128 @@
-var os = require("os");
+// var express = require("express");
+// var https = require("https");
+// var http = require("http");
+var fs = require("fs");
 var pty = require("node-pty");
 
+// var app = express();
 
-var app = require('express')();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
+// Creating an HTTP server
+// var server = http.createServer(app).listen(3001);
 
-const expressWebsocket = require("express-ws")(app);
+// var io = require("socket.io")(server);
 
-// Instantiate shell and set up data handlers
-expressWebsocket.app.ws("/shell", (ws, req) => {
-  var ptyProcess = pty.spawn("/bin/bash", [], {
+// var server = require("http").createServer(app);
+// var io = require("socket.io")(server);
+let express = require("express");
+let app = express();
+let server = require("http").Server(app);
+let io = require("socket.io")(server);
+
+server.listen(3001, "127.0.0.1");
+
+// server.listen(3001, "localhost", function() {
+//   console.log(
+//     "Express server listening on %d, in %s mode",
+//     3001,
+//     app.get("env")
+//   );
+// });
+
+// When a new socket connects
+io.on("connection", function(socket) {
+  console.log("new connection");
+  // Create terminal
+
+  var ptyProcess = pty.spawn("bash", [], {
     name: "xterm-color",
-    cols: 120,
+    cols: 80,
     rows: 30,
     cwd: process.env.HOME,
     env: process.env
   });
 
-  /// prepare environment
-  ptyProcess.write("cd ~/pitkane/d2\n");
-  // ptyProcess.on("data", function(data) {
-  // this outputs data into current stdout (console)
-  //   process.stdout.write(data);
-  // });
-
-  // ptyProcess -> websocket
-  ptyProcess.on("data", data => {
-    ws.send(data);
+  // terminal -> client
+  ptyProcess.on("data", function(data) {
+    console.log("terminal -> client: ", data);
+    socket.emit("output", data);
   });
 
-  // websocket -> ptyProcess
-  ws.on("message", msg => {
-    ptyProcess.write(msg);
+  // client -> terminal
+  socket.on("input", function(data) {
+    console.log("client -> terminal: ", data);
+    ptyProcess.write(data);
   });
 
+  // Listen on the terminal for output and send it to the client
+  socket.on("car", function(data) {
+    console.log("drive");
+  });
 
-});
-
-app.get("/", (req, res) => {
-  res.send("moro");
-});
-
-io.on('connection', (socket) => {
-  socket.emit('news', { hello: 'world' });
-
-  console.log("connection created")
-
-  socket.on('car', (data) => {
-    console.log(data);
+  // When socket disconnects, destroy the terminal
+  socket.on("disconnect", function() {
+    ptyProcess.destroy();
+    console.log("socket disconnected");
   });
 });
 
-console.log("Starting on port 3001 ");
+// var http = require("http");
+// var express = require("express");
+// var io = require("socket.io");
+// var pty = require("node-pty");
 
-// Start the application
-server.listen(3001);
+// var socket;
+// var term;
+// var buff = [];
+
+// // create shell process
+// term = pty.spawn("bash", [], {
+//   name: "xterm-256color",
+//   cols: 80,
+//   rows: 24,
+//   cwd: process.env.HOME
+// });
+
+// // store term's output into buffer or emit through socket
+// term.on("data", function(data) {
+//   return !socket ? buff.push(data) : socket.emit("data", data);
+// });
+
+// console.log(
+//   "Created shell with pty master/slave pair (master: %d, pid: %d)",
+//   term.fd,
+//   term.pid
+// );
+
+// var app = express();
+// var server = http.createServer(app);
+
+// // let term.js handle req/res
+// // app.use(Terminal.middleware());
+
+// // let server listen on the port
+// server.listen(3002);
+
+// // let socket.io handle sockets
+// // io = io.listen(server, { log: false });
+
+// // io.sockets.on("connection", function(s) {
+// //   // when connect, store the socket
+// //   socket = s;
+
+// //   // handle incoming data (client -> server)
+// //   socket.on("data", function(data) {
+// //     term.write(data);
+// //   });
+
+// //   // handle connection lost
+// //   socket.on("disconnect", function() {
+// //     socket = null;
+// //   });
+
+// //   // send buffer data to client
+// //   while (buff.length) {
+// //     socket.emit("data", buff.shift());
+// //   }
+// // });
+
+// // // server.run({ port: 3002 });

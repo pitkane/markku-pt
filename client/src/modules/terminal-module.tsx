@@ -16,6 +16,8 @@ interface IRefs {
 const StyledContainer = styled(Container)`
   position: fixed !important;
   bottom: 0 !important;
+  left: 50%;
+  transform: translate(-50%);
 `;
 
 export class TerminalModule extends React.Component<Props, State> {

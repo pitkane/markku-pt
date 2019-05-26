@@ -54,6 +54,17 @@ export class TerminalPage extends React.Component<Props, State> {
     const socket = await io("ws://0.0.0.0:3001");
     await socket.emit("car", "drive");
 
+    socket.on("console-data", data => {
+      // var bufView = new Uint8Array(data);
+
+      // var buf = new Uint8Array(data).buffer;
+      // var dv = new DataView(buf);
+
+      var enc = new TextDecoder("utf-8");
+
+      console.log(enc.decode(data));
+    });
+
     console.log(socket.connected);
     console.log(socket);
     // await socket.wait();

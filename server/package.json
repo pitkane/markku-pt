@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "ts-node": "^8.1.0",
+    "ts-node": "^8.1.1",
     "typescript": "^3.4.5"
   },
   "dependencies": {
@@ -17,10 +17,13 @@
     "@types/node": "^12.0.2",
     "@types/pty.js": "^0.2.35",
     "@types/socket.io": "^2.1.2",
+    "cors": "^2.8.5",
     "express": "^4.17.0",
     "express-ws": "^4.0.0",
     "node-pty": "^0.8.1",
     "nodemon": "^1.19.0",
+    "prettier": "^1.17.1",
+    "socket.io": "^2.2.0",
     "xterm": "^3.13.2"
   }
 }

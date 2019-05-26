@@ -3,6 +3,7 @@
 import React from "react";
 import { Terminal } from "xterm";
 import _ from "lodash";
+import axios from "axios";
 import * as attach from "xterm/lib/addons/attach/attach";
 import * as fit from "xterm/lib/addons/fit/fit";
 import * as fullscreen from "xterm/lib/addons/fullscreen/fullscreen";
@@ -44,23 +45,37 @@ export default class XTerm extends React.Component<IXtermProps, IXtermState> {
   applyAddon(addon) {
     Terminal.applyAddon(addon);
   }
-  componentDidMount() {
+  componentDidMount = async () => {
     Terminal.applyAddon(attach);
     Terminal.applyAddon(fit);
     Terminal.applyAddon(fullscreen);
 
-    this.xterm = new Terminal(this.props.options);
+    this.xterm = new Terminal();
 
     // const protocol = location.protocol === "https:" ? "wss://" : "ws://";
     // const socketURL = `${protocol}${location.hostname}:8080/`;
     // const socketURL = `ws://127.0.0.1:8080/websocket`;
-    const terminalSocketURL = `ws://0.0.0.0:3001/shell`;
+
+    const responseData: any = await axios.post(
+      "http://localhost:3001/terminals",
+      {
+        firstName: "Fred",
+        lastName: "Flintstone"
+      }
+    );
+
+    console.log(responseData);
+
+    const pid = responseData.data;
+
+    console.log("pid", pid);
+    const terminalSocketURL = `ws://127.0.0.1:3001/terminals/${pid}`;
 
     const terminalSocket = new WebSocket(terminalSocketURL);
 
     console.log(terminalSocket);
 
-    this.xterm.attach(terminalSocket);
+    await this.xterm.attach(terminalSocket);
 
     if (this.container) this.xterm.open(this.container);
 
@@ -85,7 +100,7 @@ export default class XTerm extends React.Component<IXtermProps, IXtermState> {
     if (this.props.value) {
       this.xterm.write(this.props.value);
     }
-  }
+  };
   componentWillUnmount() {
     // is there a lighter-weight way to remove the cm instance?
     if (this.xterm) {

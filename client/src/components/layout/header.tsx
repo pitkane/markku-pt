@@ -33,7 +33,7 @@ const StyledFuturiceLogo = styled.img`
   height: 20px;
   position: absolute;
   right: 50px;
-  top: 35px;
+  top: 40px;
 `;
 
 const StyledH1 = styled.h1`

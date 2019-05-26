@@ -18,7 +18,7 @@ const startServer = () => {
     const cols = parseInt(req.query.cols);
     const rows = parseInt(req.query.rows);
     const term = pty.spawn("bash", [], {
-      name: "xterm-color",
+      name: "xterm-256color",
       cols: cols || 80,
       rows: rows || 24,
       cwd: process.env.PWD,
@@ -74,86 +74,55 @@ const startServer = () => {
   const io = require("socket.io").listen(server);
 
   io.on("connection", socket => {
-    socket.on("car", data => {
+    let theProcess;
+
+    socket.on("carstop", data => {
+      console.log("STOPSTOP");
+
+      // data is actually the pid at the moment
+      const pid = data;
+
+      console.log(pid);
+
+      process.kill(pid);
+
+      // theProcess.stdin.write('echo "Hello $USER. Your machine runs since:"\n');
+      // theProcess.stdin.write("uptime\n");
+
+      console.log("kill");
+      // theProcess.stdin.pause();
+      // theProcess.exit();
+    });
+
+    socket.on("car", (data, callback) => {
       console.log("car", data);
 
       const { spawn } = require("child_process");
 
-      const process = spawn("zsh", ["./drive.sh"]);
+      theProcess = spawn("zsh", ["./drive.sh"]);
 
-      // ws.send(logs[term.pid]);
+      console.log("PID: ", theProcess.pid);
+      console.log("PID: ", theProcess.ppid);
 
-      // string message buffering
-      function buffer(socket, timeout) {
-        let s = "";
-        let sender = null;
-        return data => {
-          s += data;
-          if (!sender) {
-            sender = setTimeout(() => {
-              socket.send(s);
-              s = "";
-              sender = null;
-            }, timeout);
-          }
-        };
-      }
-      // binary message buffering
-      function bufferUtf8(socket, timeout) {
-        let buffer = [];
-        let sender = null;
-        let length = 0;
-        return data => {
-          buffer.push(data);
-          length += data.length;
-          if (!sender) {
-            sender = setTimeout(() => {
-              socket.send(Buffer.concat(buffer, length));
-              buffer = [];
-              sender = null;
-              length = 0;
-            }, timeout);
-          }
-        };
-      }
-      const send = buffer(socket, 5);
-
-      process.stdout.on("data", data => {
+      theProcess.stdout.on("data", data => {
         console.log(`stdout: ${data}`);
-        // send(data);
         socket.emit("console-data", data);
       });
 
-      process.stderr.on("data", data => {
+      theProcess.stderr.on("data", data => {
         console.log(`stderr: ${data}`);
         socket.emit("console-data", data);
       });
 
-      process.on("exit", code => {
+      theProcess.on("exit", code => {
         console.log("Child exited");
       });
-      // const runner = spawn("/bin/bash", [], {
-      //   stdio: "inherit"
-      // });
 
-      // console.log(runner);
-
-      // runner.stdout.on("data", data => {
-      //   console.log(`stdout: ${data}`);
-      // });
-
-      // runner.stderr.on("data", data => {
-      //   console.log(`stderr: ${data}`);
-      // });
-
-      // runner.on("close", code => {
-      //   console.log(`child process exited with code ${code}`);
-      // });
+      callback(theProcess.pid);
     });
   });
 
   console.log("App listening to http://0.0.0.0:" + port);
-  // app.listen(port, host);
 };
 
 startServer();

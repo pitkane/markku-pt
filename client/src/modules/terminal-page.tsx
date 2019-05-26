@@ -19,6 +19,10 @@ export class TerminalPage extends React.Component<Props, State> {
   refs: IRefs;
   socket: any;
 
+  state = {
+    drivingPid: null
+  };
+
   throttleConsoleResize = _.throttle((size?) => {
     this.refs.xterm && this.refs.xterm.fit();
   }, 10);
@@ -52,7 +56,10 @@ export class TerminalPage extends React.Component<Props, State> {
 
   startDriving = async () => {
     const socket = await io("ws://0.0.0.0:3001");
-    await socket.emit("car", "drive");
+    await socket.emit("car", "drive", ack => {
+      console.log("ack:", ack);
+      this.setState({ drivingPid: ack });
+    });
 
     socket.on("console-data", data => {
       // var bufView = new Uint8Array(data);
@@ -72,6 +79,16 @@ export class TerminalPage extends React.Component<Props, State> {
     // console.log(socket);
   };
 
+  stopDriving = async () => {
+    console.log("sending stop");
+    const socket = await io("ws://0.0.0.0:3001");
+    await socket.emit("carstop", this.state.drivingPid);
+
+    // await socket.wait();
+    // socket.emit
+    // console.log(socket);
+  };
+
   render() {
     return (
       <StyledContainer>
@@ -79,11 +96,18 @@ export class TerminalPage extends React.Component<Props, State> {
           <Col>
             asdfasdfsadf afsdfas djsfadöasdföasdf ölasdf öasdf ösdf ödl ffdjas
             dfksdf aö asdfö asdföafs dlafs dla sfdlö1
+            <br />
+            <br />
             <button onClick={() => this.sendTestMessage()}>
               sendTestMessage
             </button>
+            <br />
+            <br />
             <button onClick={() => this.startDriving()}>
               this.startDriving()
+            </button>
+            <button onClick={() => this.stopDriving()}>
+              this.stopDriving()
             </button>
           </Col>
         </Row>

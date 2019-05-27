@@ -2,8 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const expressWs = require("express-ws");
 const pty = require("node-pty");
-
-const shellHelper = require("./shellHelper");
+const { readdir, stat } = require("fs").promises;
+const { join } = require("path");
 
 const startServer = () => {
   const app = express();
@@ -14,13 +14,29 @@ const startServer = () => {
   const terminals = {};
   const logs = {};
 
+  const carPath = "/Users/mpit/car-donkeyx/tubs";
+
+  app.get("/tubs", async (req, res) => {
+    let dirs = [];
+    for (const file of await readdir(carPath)) {
+      if ((await stat(join(carPath, file))).isDirectory()) {
+        dirs = [...dirs, file];
+      }
+    }
+
+    res.send(dirs);
+    res.end();
+  });
+
   app.post("/terminals", (req, res) => {
     const cols = parseInt(req.query.cols);
     const rows = parseInt(req.query.rows);
+
     const term = pty.spawn("bash", [], {
-      name: "xterm-256color",
-      cols: cols || 80,
-      rows: rows || 24,
+      // name: "xterm-256color",
+      name: "xterm-color",
+      cols: cols || 140,
+      rows: rows || 25,
       cwd: process.env.PWD,
       env: process.env
     });
@@ -34,7 +50,10 @@ const startServer = () => {
       logs[term.pid] += data;
     });
 
-    term.write("echo moro\n");
+    term.write(
+      "echo moroasdfljkasdfklöjasdöflkjasöldfkjasölkdfjaöslkdfjaölksdjfölasfjösadasöldkfjöalskdfj\n"
+    );
+    term.write("echo $COLUMNS\n");
 
     res.send(term.pid.toString());
 

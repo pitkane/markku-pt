@@ -16,7 +16,6 @@ class HomePage extends React.Component<Props, State> {
     return (
       <StyledContainer>
         <StyledNavigation>
-          <Link to="/">/</Link>
           <Link to="/drive">/drive</Link>
           <Link to="/train">/train</Link>
           <Link to="/training">/training</Link>

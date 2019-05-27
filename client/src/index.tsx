@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import RootComponent from "./root";
+import RootComponent from "./root-component";
 
 import "normalize.css";
 

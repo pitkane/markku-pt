@@ -1,5 +1,3 @@
-"use strict";
-
 const fs = require("fs");
 const isWsl = require("is-wsl");
 const path = require("path");
@@ -344,6 +342,12 @@ module.exports = function(webpackEnv) {
                 ),
 
                 plugins: [
+                  [
+                    "babel-plugin-styled-components",
+                    {
+                      displayName: true
+                    }
+                  ],
                   [
                     require.resolve("babel-plugin-named-asset-import"),
                     {

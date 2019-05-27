@@ -50,7 +50,7 @@ export default class XTerm extends React.Component<IXtermProps, IXtermState> {
     Terminal.applyAddon(fit);
     Terminal.applyAddon(fullscreen);
 
-    this.xterm = new Terminal();
+    this.xterm = new Terminal({ cols: 140, rows: 25 });
 
     // const protocol = location.protocol === "https:" ? "wss://" : "ws://";
     // const socketURL = `${protocol}${location.hostname}:8080/`;
@@ -154,6 +154,7 @@ export default class XTerm extends React.Component<IXtermProps, IXtermState> {
   };
 
   resize(cols: number, rows: number) {
+    console.log(cols, rows);
     this.xterm && this.xterm.resize(Math.round(cols), Math.round(rows));
   }
   setOption(key: string, value: boolean) {
@@ -187,8 +188,8 @@ export default class XTerm extends React.Component<IXtermProps, IXtermState> {
           ref={ref => (this.container = ref)}
           className={terminalClassName}
         />
-        <button onClick={() => this.fit()}>fits</button>
-        <button onClick={() => this.toggleFullscreen()}>fullscreen</button>
+
+        {/* <button onClick={() => this.resize(50, 50)}>this.resize()</button> */}
       </div>
     );
   }

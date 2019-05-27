@@ -43,7 +43,6 @@ export class RootComponent extends React.Component<Props, State> {
               <Route path="/train" exact component={TrainPage} />
               <Route path="/training" exact component={TrainingPage} />
               <Route path="/test" exact component={TestPage} />
-              {/* <Route path="/terminal" exact component={TerminaPage} /> */}
             </StyledMainContainer>
 
             <Footer />

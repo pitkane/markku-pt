@@ -24,9 +24,9 @@ const StyledContainer = styled.div`
 
 const StyledMarkkuLogo = styled.img`
   height: 20px;
-  position: absolute;
+  position: fixed;
   left: 50px;
-  top: 35px;
+  top: 40px;
 `;
 
 const StyledFuturiceLogo = styled.img`

@@ -5,7 +5,7 @@ const pty = require("node-pty");
 const { readdir, stat } = require("fs").promises;
 const { join } = require("path");
 
-interface DataTub {
+interface DataDirectory {
   name: string;
   lastModificationTime: string;
   numberOfFiles: number;
@@ -23,26 +23,27 @@ const startServer = () => {
   const carPath = "/Users/mpit/car-donkeyx/tubs";
 
   app.get("/tubs", async (req, res) => {
-    let dataTubs: DataTub[] = [];
+    let dataDirectories: DataDirectory[] = [];
     for (const file of await readdir(carPath)) {
       console.log(file);
 
-      const theFile = await stat(join(carPath, file));
-      if (theFile.isDirectory()) {
+      const fileStats = await stat(join(carPath, file));
+
+      if (fileStats.isDirectory()) {
         const theFolder = await readdir(join(carPath, file));
 
-        const newDataTub: DataTub = {
+        const newDataDirectory: DataDirectory = {
           name: file,
-          lastModificationTime: theFolder.mtime,
+          lastModificationTime: fileStats.mtime,
           numberOfFiles: theFolder.length
         };
 
         console.log(theFolder);
-        dataTubs = [...dataTubs, newDataTub];
+        dataDirectories = [...dataDirectories, newDataDirectory];
       }
     }
 
-    res.send(dataTubs);
+    res.send(dataDirectories);
     res.end();
   });
 

@@ -16,6 +16,7 @@ const StyledHeader = styled.h2`
   text-align: center;
 `;
 const StyledDirectory = styled.div`
+  cursor: pointer;
   padding: 20px;
   border-radius: 4px;
   box-shadow: 0 1px 2px 0 rgba(28, 42, 59, 0.16);
@@ -75,11 +76,11 @@ const TrainPage: React.FC = () => {
           </Col>
         </Row>
 
-        {_.map(chunkedDataDirectories, rowOfDirectories => (
-          <Row>
+        {_.map(chunkedDataDirectories, (rowOfDirectories, index) => (
+          <Row key={`directory-row-${index}`}>
             {_.map(rowOfDirectories, (dataDirectory: DataDirectory) => {
               return (
-                <Col md={4}>
+                <Col md={4} key={`directory-${dataDirectory.name}`}>
                   <DataDirectory directory={dataDirectory} />
                 </Col>
               );
